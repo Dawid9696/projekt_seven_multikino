@@ -1,0 +1,163 @@
+# @format
+
+type Query {
+	users: [User!]!
+	user(id: ID!): User
+	myProfile: User!
+	movies: [Movie!]!
+	movie(id: ID!): Movie
+}
+
+type User {
+	id: ID!
+	admin: Boolean!
+	name: String!
+	surname: String!
+	email: String!
+	password: String!
+	photo: String
+	phone: Int!
+	age: Int!
+	sex: Sex
+	myTickets: [Movie!]!
+}
+
+type Subscription {
+	count: Int!
+	comment(movieId: ID!): Comment!
+}
+
+enum Sex {
+	FAMALE
+	MALE
+}
+
+type Movie {
+	id: ID!
+	title: String!
+	genre: String!
+	duration: Int!
+	released: Boolean
+	direction: String!
+	description: String!
+	seance: [Seance!]
+	city: [String!]!
+	comments: [Comment!]
+}
+
+type Seance {
+	hour: String!
+	dimension: String!
+	dubbing: Dubbing!
+}
+
+enum Dubbing {
+	NAPISY
+	DUBBING
+}
+
+type Comment {
+	id: ID!
+	comment: String!
+	commentDate: String!
+	commentRatio: Int!
+	commentedBy: User!
+	inMovie: Movie!
+}
+
+type Mutation {
+	createUser(userData: CreateUserInput): AuthPayLoad!
+	createMovie(movieData: CreateMovieInput, seanceData: [SeanceInput!]): Movie!
+	createComment(commentData: CreateCommentInput): Comment!
+
+	updateUser(updateData: UpdateUserInput!): User!
+	updateMovie(updateMovie: UpdateMovieInput!, id: ID!): Movie
+
+	addTicket(id: ID!): User
+	deleteTicket(id: ID!): User!
+
+	deleteUser: User!
+	deleteMovie(id: ID!): Movie!
+	deleteComment(id: ID!): Comment!
+
+	logIn(email: String!, password: String!): AuthPayLoad!
+}
+
+type AuthPayLoad {
+	newUser: User
+	token: String
+}
+
+# input QueryAllBikesInput {
+# 	limit: Int
+# 	skip: Int
+# 	lowPrice: Int
+# 	highPrice: Int
+# 	type: [String!]
+# 	model: [String!]
+# 	color: [String!]
+# 	frame: [String!]
+# 	year: [Int!]
+# 	sort: Int
+# }
+
+input LogInInput {
+	email: String!
+	password: String!
+}
+
+input CreateUserInput {
+	name: String!
+	surname: String!
+	email: String!
+	password: String!
+	photo: String
+	phone: Int!
+	age: Int!
+	sex: Sex!
+}
+
+input SeanceInput {
+	hour: String!
+	dimension: String!
+	dubbing: String!
+}
+
+input CreateMovieInput {
+	title: String!
+	genre: String!
+	duration: Int!
+	released: Boolean
+	direction: String!
+	description: String!
+	city: [String!]!
+}
+
+input CreateCommentInput {
+	comment: String!
+	inMovie: ID!
+}
+
+input UpdateUserInput {
+	name: String
+	surname: String
+	email: String
+	password: String
+	photo: String
+	phone: Int
+	age: Int
+	sex: Sex
+}
+
+input UpdateMovieInput {
+	title: String
+	genre: String
+	duration: Int
+	released: Boolean
+	direction: String
+	description: String
+	city: [String!]
+	hour: String
+	dimension: String
+	dubbing: Dubbing
+}

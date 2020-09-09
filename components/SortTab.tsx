@@ -1,0 +1,7 @@
+/** @format */
+
+import Head from "next/head";
+
+export default function SortTab() {
+	return <div>Repertuar</div>;
+}
